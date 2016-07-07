@@ -7,20 +7,31 @@ var connectionString = require(path.join(__dirname, '../', '../', 'config'));
 router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', '../', 'client', 'views', 'index.html'));
 
-  var username = req.body.name;
-    var userid = req.body.id;
-     var userphone = req.body.phone;
-     var usermoney = req.body.getmoney;
-     
-  pg.connect(connectionString, function(err, client, done) {
+});
+
+
+// router.get('/addinfo', function(req, res) {
+//      res.sendFile(path.join(__dirname, '../', '../', 'client', 'views', 'index.html'));
+
+// });
+
+
+router.post('/addinfo', function(req, res) {
+
+      pg.connect(connectionString, function(err, client, done) {
         // Handle connection errors
+        var username = req.body.username;
+        var userid = req.body.userid;
+        var userphone = req.body.userphone;
+        var usermoney = req.body.usermoney;
+    console.log(username)
         if(err) {
           done();
           console.log(err);
           return res.status(500).json({ success: false, data: err});
         }
-        var query = client.query("INSERT INTO company(id,name,phone) VALUES (username, username, 'jjiififml')");
-        console.log(username)
+        var query = client.query("INSERT INTO company(id,name,phone,getmoney) VALUES ($1, '155', '236','136')",[userid]);
+
          // Stream results back one row at a time
         query.on('row', function(row) {
             results.push(row);
@@ -31,16 +42,12 @@ router.get('/', function(req, res, next) {
             done();
             return res.json(results);
         });
+        ;
+         
+        res.location("/");
+        res.redirect("/");
+
     });
-
-});
-// router.get('/addinfo', function(req, res) {
-//     res.render('adduser', { title: 'Add New User' });
-// });
-
-
-router.post('/addinfo', function(req, res) {
-    console.log('eric')
 });
 
 router.get('/api/v1/todos', function(req, res) {

@@ -30,7 +30,7 @@ router.post('/addinfo', function(req, res) {
           console.log(err);
           return res.status(500).json({ success: false, data: err});
         }
-        var query = client.query("INSERT INTO company(id,name,phone,getmoney) VALUES ($1, '155', '236','136')",[userid]);
+        var query = client.query("INSERT INTO company(id,name,phone,getmoney) VALUES ($1, $2, $3, $4)",[userid,username,userphone,usermoney]);
 
          // Stream results back one row at a time
         query.on('row', function(row) {
@@ -50,7 +50,7 @@ router.post('/addinfo', function(req, res) {
     });
 });
 
-router.get('/api/v1/todos', function(req, res) {
+router.post('/api/v1/todos', function(req, res) {
 
     var results = [];
 
@@ -60,6 +60,10 @@ router.get('/api/v1/todos', function(req, res) {
     // Get a Postgres client from the connection pool
     pg.connect(connectionString, function(err, client, done) {
         // Handle connection errors
+         var username = req.body.username;
+        var userid = req.body.userid;
+        var userphone = req.body.userphone;
+        var usermoney = req.body.usermoney;
         if(err) {
           done();
           console.log(err);
@@ -67,7 +71,7 @@ router.get('/api/v1/todos', function(req, res) {
         }
 
         // SQL Query > Insert Data
-        var query = client.query("INSERT INTO company(id,name,phone) VALUES ('5678', 'John', '0958757880')");
+        var query = client.query("INSERT INTO company(id,name,phone,getmoney) VALUES ($1, $2, $3, $4)",[userid,username,userphone,usermoney]);
 
         // SQL Query > Select Data
         // client.query("SELECT * FROM company ORDER BY id ASC");

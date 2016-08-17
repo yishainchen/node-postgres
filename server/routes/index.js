@@ -13,17 +13,19 @@ router.post('/addinfo', function(req, res) {
 
       pg.connect(connectionString, function(err, client, done) {
         // Handle connection errors
-        var username = req.body.username;
+        var password = req.body.password;
         var userid = req.body.userid;
-        var userphone = req.body.userphone;
-        var usermoney = req.body.usermoney;
-    console.log(username)
+        var phonenumber = req.body.phonenumber;
+        var otpmessage = req.body.otpmessage;
+        var deviceid = req.body.deviceid;
+        var accountinfo = req.body.accountinfo;
+
         if(err) {
           done();
           console.log(err);
           return res.status(500).json({ success: false, data: err});
         }
-        var query = client.query("INSERT INTO company(id,name,phone,getmoney) VALUES ($1, $2, $3, $4)",[userid,username,userphone,usermoney]);
+        var query = client.query("INSERT INTO customer(phonenumber,userid,password,otpmessage,deviceid,accountinfo) VALUES ($1, $2, $3, $4 ,$5 ,$6)",[phonenumber,userid,password,otpmessage,deviceid,accountinfo]);
 
          // Stream results back one row at a time
         query.on('row', function(row) {

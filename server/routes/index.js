@@ -9,13 +9,6 @@ router.get('/', function(req, res, next) {
 
 });
 
-
-// router.get('/addinfo', function(req, res) {
-//      res.sendFile(path.join(__dirname, '../', '../', 'client', 'views', 'index.html'));
-
-// });
-
-
 router.post('/addinfo', function(req, res) {
 
       pg.connect(connectionString, function(err, client, done) {
